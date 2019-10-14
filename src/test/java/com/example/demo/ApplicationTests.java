@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.BoundListOperations;
 import org.springframework.data.redis.core.BoundZSetOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import com.example.demo.bean.Goods;
@@ -67,7 +68,7 @@ public class ApplicationTests {
 		//1.先使用工具类解析test.txt文件/1012_boot_demo_redis-week2/src/test/java/test.txt
 		//将文件的每一行数据解析之后装入到list集合中，每一行数据就是一个goods对象
 		List<String> readFileByLinesList = IOToFileUtils.readFileByLinesList(System.getProperty("user.dir")+"/src/test/java/test.txt");
-		
+		redisTemplate.setKeySerializer(new StringRedisSerializer());
 		BoundZSetOperations<String, Object> boundZSetOps = redisTemplate.boundZSetOps("zsetGoods");
 		
 		//测试数据读取是否成功
